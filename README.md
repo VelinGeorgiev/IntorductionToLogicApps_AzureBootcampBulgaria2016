@@ -1,6 +1,6 @@
-# Intorduction to Azure Logic Apps presented at Azure Bootcamp Bulgaria 2016
+# Introduction to Azure Logic Apps presented at Azure Bootcamp Bulgaria 2016
 
-Intorduction to Logic Apps presented at Azure Bootcamp Bulgaria 2016 by Velin Georgiev (included all files and materials)
+Introduction to Logic Apps presented at Azure Bootcamp Bulgaria 2016 by Velin Georgiev (included all files and materials)
 
 Please note this code is used for the purpose of the presentation demos and it is not production ready.
 
