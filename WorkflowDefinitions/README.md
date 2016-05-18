@@ -1,5 +1,3 @@
-# "Intorduction to Logic Apps" presented at Azure Bootcamp Bulgaria 2016 by Velin Georgiev
-
 # Workflow Definitions of the presented 3 demos
 
 SaveTweets.json - saves tweets to one drive.
