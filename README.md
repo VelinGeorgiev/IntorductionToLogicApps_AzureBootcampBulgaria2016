@@ -1,4 +1,4 @@
-# Intorduction to Azure Logic Apps AzureBootcamp Bulgaria 2016
+# Intorduction to Azure Logic Apps presented at Azure Bootcamp Bulgaria 2016
 
 Intorduction to Logic Apps presented at Azure Bootcamp Bulgaria 2016 by Velin Georgiev (included all files and materials)
 
