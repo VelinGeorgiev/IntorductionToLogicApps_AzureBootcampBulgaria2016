@@ -1,0 +1,128 @@
+{
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2015-08-01-preview/workflowdefinition.json#",
+    "actions": {
+        "AddRows(Json)": {
+            "conditions": [
+                {
+                    "dependsOn": "DataConvertor"
+                }
+            ],
+            "inputs": {
+                "body": {
+                    "Name": "@{body('DataConvertor')['name']}",
+                    "Score": "@body('DataConvertor')['score']"
+                },
+                "method": "post",
+                "queries": {
+                    "datasetId": "f5b3d04a-9759-43d8-a8c7-e5bbba2e9f21",
+                    "table": "Score"
+                },
+                "uri": "https://logicappspowerbiapi.azurewebsites.net/api/AddJsonRows"
+            },
+            "metadata": {
+                "apiDefinitionUrl": "https://logicappspowerbiapi.azurewebsites.net/swagger/docs/v1",
+                "swaggerSource": "website"
+            },
+            "type": "Http"
+        },
+        "DataConvertor": {
+            "conditions": [],
+            "inputs": {
+                "body": {
+                    "data": "@{triggerBody()['data']}"
+                },
+                "method": "post",
+                "uri": "https://tkzsdataconvertor.azurewebsites.net/api/DataConvertor"
+            },
+            "metadata": {
+                "apiDefinitionUrl": "https://tkzsdataconvertor.azurewebsites.net/swagger/docs/v1",
+                "swaggerSource": "website"
+            },
+            "type": "Http"
+        },
+        "Post_Message": {
+            "conditions": [
+                {
+                    "expression": "@equals(body('DataConvertor')['totalScore'], 300)"
+                },
+                {
+                    "dependsOn": "AddRows(Json)"
+                }
+            ],
+            "inputs": {
+                "host": {
+                    "api": {
+                        "runtimeUrl": "https://logic-apis-westeurope.azure-apim.net/apim/slack"
+                    },
+                    "connection": {
+                        "name": "@parameters('$connections')['slack']['connectionId']"
+                    }
+                },
+                "method": "post",
+                "path": "/chat.postMessage",
+                "queries": {
+                    "channel": "#general",
+                    "text": "New teammate achievement earned! Glorious farming for player @{body('DataConvertor')['name']} in Logic Apps game! "
+                }
+            },
+            "type": "ApiConnection"
+        },
+        "Post_a_new_tweet": {
+            "conditions": [
+                {
+                    "dependsOn": "Post_Message"
+                }
+            ],
+            "inputs": {
+                "host": {
+                    "api": {
+                        "runtimeUrl": "https://logic-apis-westeurope.azure-apim.net/apim/twitter"
+                    },
+                    "connection": {
+                        "name": "@parameters('$connections')['twitter_1']['connectionId']"
+                    }
+                },
+                "method": "post",
+                "path": "/posttweet",
+                "queries": {
+                    "tweetText": "Glorious farming for @{body('DataConvertor')['name']}! #LogicAppsGame #LogicApps #AzureBootcamp2016Bulgaria"
+                }
+            },
+            "type": "ApiConnection"
+        },
+        "Transform": {
+            "conditions": [
+                {
+                    "expression": "@equals(actions('Post_Message').status, 'Skipped')"
+                }
+            ],
+            "inputs": {
+                "body": "@body('DataConvertor')['totalScore']",
+                "function": {
+                    "id": "/subscriptions/b8f9747d-41c0-4237-8d4a-258ddcf035d1/resourceGroups/LogicAppsResource/providers/Microsoft.Web/sites/simple-function-app/functions/Transform"
+                }
+            },
+            "type": "Function"
+        }
+    },
+    "contentVersion": "1.0.0.0",
+    "outputs": {},
+    "parameters": {
+        "$connections": {
+            "defaultValue": {},
+            "type": "Object"
+        }
+    },
+    "triggers": {
+        "manual": {
+            "inputs": {
+                "schema": {
+                    "properties": {},
+                    "required": [],
+                    "type": "object"
+                }
+            },
+            "type": "Manual"
+        }
+    }
+}

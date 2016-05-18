@@ -234,3 +234,5 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+src/daTkzsGame/Tkzs/Tkzs/env/
+src/daTkzsGame/Tkzs/Tkzs/static/bower_components/

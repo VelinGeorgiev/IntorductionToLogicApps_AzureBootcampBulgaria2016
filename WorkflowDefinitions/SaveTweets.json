@@ -1,0 +1,141 @@
+{
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2015-08-01-preview/workflowdefinition.json#",
+    "actions": {
+        "Create_file": {
+            "conditions": [
+                {
+                    "expression": "@greaterOrEquals(item()['RetweetCount'], 1)"
+                },
+                {
+                    "dependsOn": "Search_tweet"
+                }
+            ],
+            "foreach": "@body('Search_tweet')",
+            "inputs": {
+                "body": "@concat(item()['TweetText'],' by ',item()['TweetedBy'])",
+                "host": {
+                    "api": {
+                        "runtimeUrl": "https://logic-apis-westeurope.azure-apim.net/apim/onedrive"
+                    },
+                    "connection": {
+                        "name": "@parameters('$connections')['onedrive']['connectionId']"
+                    }
+                },
+                "method": "post",
+                "path": "/datasets/default/files",
+                "queries": {
+                    "folderPath": "LogicApps",
+                    "name": "messi_@{item()['TweetId']}.txt"
+                }
+            },
+            "type": "apiconnection"
+        },
+        "Search_tweet": {
+            "conditions": [],
+            "inputs": {
+                "host": {
+                    "api": {
+                        "runtimeUrl": "https://logic-apis-westeurope.azure-apim.net/apim/twitter"
+                    },
+                    "connection": {
+                        "name": "@parameters('$connections')['twitter']['connectionId']"
+                    }
+                },
+                "method": "get",
+                "path": "/searchtweets",
+                "queries": {
+                    "maxResults": 20,
+                    "searchQuery": "messi"
+                }
+            },
+            "type": "apiconnection"
+        }
+    },
+    "contentVersion": "1.0.0.0",
+    "outputs": {},
+    "parameters": {
+        "$connections": {
+            "defaultValue": {},
+            "type": "Object"
+        }
+    },
+    "triggers": {
+        "recurrence": {
+            "recurrence": {
+                "frequency": "Hour",
+                "interval": 1
+            },
+            "type": "Recurrence"
+        }
+    }
+}{
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2015-08-01-preview/workflowdefinition.json#",
+    "actions": {
+        "Create_file": {
+            "conditions": [
+                {
+                    "expression": "@greaterOrEquals(item()['RetweetCount'], 1)"
+                },
+                {
+                    "dependsOn": "Search_tweet"
+                }
+            ],
+            "foreach": "@body('Search_tweet')",
+            "inputs": {
+                "body": "@concat(item()['TweetText'],' by ',item()['TweetedBy'])",
+                "host": {
+                    "api": {
+                        "runtimeUrl": "https://logic-apis-westeurope.azure-apim.net/apim/onedrive"
+                    },
+                    "connection": {
+                        "name": "@parameters('$connections')['onedrive']['connectionId']"
+                    }
+                },
+                "method": "post",
+                "path": "/datasets/default/files",
+                "queries": {
+                    "folderPath": "LogicApps",
+                    "name": "messi_@{item()['TweetId']}.txt"
+                }
+            },
+            "type": "apiconnection"
+        },
+        "Search_tweet": {
+            "conditions": [],
+            "inputs": {
+                "host": {
+                    "api": {
+                        "runtimeUrl": "https://logic-apis-westeurope.azure-apim.net/apim/twitter"
+                    },
+                    "connection": {
+                        "name": "@parameters('$connections')['twitter']['connectionId']"
+                    }
+                },
+                "method": "get",
+                "path": "/searchtweets",
+                "queries": {
+                    "maxResults": 20,
+                    "searchQuery": "messi"
+                }
+            },
+            "type": "apiconnection"
+        }
+    },
+    "contentVersion": "1.0.0.0",
+    "outputs": {},
+    "parameters": {
+        "$connections": {
+            "defaultValue": {},
+            "type": "Object"
+        }
+    },
+    "triggers": {
+        "recurrence": {
+            "recurrence": {
+                "frequency": "Hour",
+                "interval": 1
+            },
+            "type": "Recurrence"
+        }
+    }
+}
