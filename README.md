@@ -11,10 +11,14 @@ http://aka.ms/logicappsquickstart
 https://github.com/logicappsio
 
 Comunnity links:
+
 Webcast: http://aka.ms/logicappslive
+
 Twitter: @logicappsio
 Blog: https://blogs.msdn.microsoft.com/logicapps/
+
 Channel 9
+
 User voice: https://feedback.azure.com/forums/287593-logic-apps?filter=top&page=1
 
 
