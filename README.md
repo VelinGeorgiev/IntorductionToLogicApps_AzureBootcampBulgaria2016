@@ -8,6 +8,7 @@ I have added the official links, If you'd like to know more about Azure Logic Ap
 
 # Call to action
 http://aka.ms/logicappsquickstart
+
 https://github.com/logicappsio
 
 Comunnity links:
