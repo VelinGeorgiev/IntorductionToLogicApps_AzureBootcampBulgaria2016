@@ -1,7 +1,9 @@
 # Source code used for the demos
 
 daTkzsGame - simple python-js game for demo purpose.
+
 DataConvertor - simple asp.net api to convert one data format into another.
+
 powerbi - solution from the official repository modified to meet the needs of the presentation.
 
 Please note this code is used for the purpose of the demos and it is not production ready.
